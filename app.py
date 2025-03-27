@@ -44,7 +44,7 @@ else:
     st.write("No reading sessions logged yet.")
 
 # Streak Tracking
-st.subheader("⏳ Streaks & Goals")
+st.subheader("⏳ Streaks")
 if st.session_state.reading_log:
     dates = sorted([entry['Date'] for entry in st.session_state.reading_log])
     streak = 1
