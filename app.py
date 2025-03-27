@@ -20,12 +20,14 @@ date = st.sidebar.date_input("Date", datetime.date.today())
 mood = st.sidebar.slider("Mood After Reading (1-10)", 1, 10, 5)
 focus = st.sidebar.slider("Focus Level (1-10)", 1, 10, 5)
 productivity = st.sidebar.slider("Productivity Level (1-10)", 1, 10, 5)
+reflection = st.sidebar.text_area("Reflection", placeholder="What did you notice about yourself, your mood, or your experience?")
 
 if st.sidebar.button("Log Reading Session"):
     st.session_state.reading_log.append({
         "Date": date,
         "Book": book_title,
         "Duration (min)": duration
+        "Reflection": reflection
     })
     st.session_state.mood_log.append({
         "Date": date,
