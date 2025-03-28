@@ -26,7 +26,7 @@ if st.sidebar.button("Log Reading Session"):
     st.session_state.reading_log.append({
         "Date": date,
         "Book": book_title,
-        "Duration (min)": duration
+        "Duration (min)": duration,
         "Reflection": reflection
     })
     st.session_state.mood_log.append({
@@ -58,6 +58,33 @@ if st.session_state.reading_log:
     st.write(f"🔥 Current Streak: {streak} days")
 else:
     st.write("Start reading to build your streak!")
+
+# Reading Duration Statistics & Vizualization
+st.subheader("📊 Reading Over Time")
+if st.session_state.reading_log:
+    df = pd.DataFrame(st.session_state.reading_log)
+
+    # Ensure date is sorted
+    df = df.sort_values("Date")
+
+    # Calculate statistics
+    avg_duration_per_session = df["Duration (min)"].mean()
+    avg_duration_per_day = df.groupby("Date")["Duration (min)"].sum().mean()
+
+    st.write(f"📘 **Average Duration per Session:** {avg_duration_per_session:.2f} minutes")
+    st.write(f"📆 **Average Duration per Day:** {avg_duration_per_day:.2f} minutes")
+
+    # Visualization of reading duration over time
+    fig, ax = plt.subplots()
+    ax.plot(df["Date"], df["Duration (min)"], label="Reading Duration", marker='o', linestyle='-', color='b')
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Minutes Spent Reading")
+    ax.set_title("Reading Duration Over Time")
+    ax.legend()
+    plt.xticks(rotation=45)
+    st.pyplot(fig)
+else:
+    st.write("No reading data yet.")
 
 # Visualization of mood, focus, productivity
 st.subheader("📈 Mood, Focus & Productivity Over Time")
